@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title data-i18n="page.title">Image Translator (OCR) Settings</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; min-width: 360px; color: #222; }
+  h2 { margin: 0 0 12px; font-size: 16px; }
+  h3 { margin: 22px 0 4px; font-size: 13px; color: #444; letter-spacing: .04em; }
+  label { display: block; margin: 14px 0 4px; font-size: 13px; font-weight: 600; }
+  select, input[type="text"], input[type="password"] {
+    width: 100%; padding: 6px 8px; font-size: 14px; box-sizing: border-box;
+  }
+  input[type="text"] { font-family: ui-monospace, Consolas, monospace; cursor: pointer; }
+  input[type="text"]:disabled, input[type="password"]:disabled {
+    background: #f3f3f3; color: #999; cursor: not-allowed;
+  }
+  input[type="password"] { font-family: ui-monospace, Consolas, monospace; }
+  .note { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.4; }
+  .note a { color: #1a73e8; }
+  .checkbox-label {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 18px; font-weight: 600; cursor: pointer;
+  }
+  .status { color: #2a7; font-size: 12px; margin-top: 14px; min-height: 1em; }
+  hr { border: 0; border-top: 1px solid #e6e6e6; margin: 20px 0 4px; }
+</style>
+</head>
+<body>
+  <h2 data-i18n="heading">Image Translator (OCR)</h2>
+
+  <h3 data-i18n="section.engine">Translation engine</h3>
+
+  <label for="engine" data-i18n="engine.label">Engine</label>
+  <select id="engine">
+    <option value="google" data-i18n="engine.google">Google free endpoint (default)</option>
+    <option value="gemini">Gemini</option>
+    <option value="deepseek">DeepSeek</option>
+  </select>
+  <div class="note" data-i18n="engine.note">
+    The Google free endpoint needs no API key. Gemini receives the selected image directly; DeepSeek cannot take images,
+    so Lens OCR extracts the text first and only plain text is sent for translation.
+  </div>
+
+  <label for="geminiApiKey" data-i18n="geminiKey.label">Gemini API Key</label>
+  <input type="password" id="geminiApiKey" autocomplete="off" spellcheck="false"
+         placeholder="AIza..." data-i18n-placeholder="geminiKey.placeholderActive">
+  <div class="note" data-i18n-html="geminiKey.note">
+    Get one at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>.
+  </div>
+
+  <label for="deepseekApiKey" data-i18n="deepseekKey.label">DeepSeek API Key</label>
+  <input type="password" id="deepseekApiKey" autocomplete="off" spellcheck="false"
+         placeholder="sk-..." data-i18n-placeholder="deepseekKey.placeholderActive">
+  <div class="note" data-i18n-html="deepseekKey.note">
+    Get one at <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">DeepSeek Platform</a>.
+  </div>
+
+  <label for="geminiFallbackModel" data-i18n="geminiFallback.label">Gemini fallback model</label>
+  <input type="text" id="geminiFallbackModel" autocomplete="off" spellcheck="false"
+         placeholder="gemini-3.5-flash-lite" data-i18n-placeholder="geminiFallback.placeholderActive">
+  <div class="note" data-i18n="geminiFallback.note">
+    Used automatically when the primary gemini-3.8-flash model still returns 429/503 after retries. Multiple models are
+    allowed, separated by commas (e.g. gemini-3.5-flash-lite, gemini-3.6-flash).
+  </div>
+
+  <hr>
+
+  <h3 data-i18n="section.translation">Translation</h3>
+
+  <!-- This label is intentionally NOT translatable: it must always read in English. -->
+  <label for="targetLang">Target language</label>
+  <select id="targetLang">
+    <option value="en">English</option>
+    <option value="ru">Русский</option>
+    <option value="uk">Українська</option>
+    <option value="es">Español</option>
+    <option value="fr">Français</option>
+    <option value="de">Deutsch</option>
+    <option value="it">Italiano</option>
+    <option value="pt">Português</option>
+    <option value="nl">Nederlands</option>
+    <option value="pl">Polski</option>
+    <option value="tr">Türkçe</option>
+    <option value="ja">日本語</option>
+    <option value="zh-CN">简体中文</option>
+    <option value="zh-TW">繁體中文</option>
+    <option value="ko">한국어</option>
+    <option value="ar">العربية</option>
+    <option value="hi">हिन्दी</option>
+    <option value="he">עברית</option>
+    <option value="vi">Tiếng Việt</option>
+    <option value="th">ไทย</option>
+  </select>
+  <div class="note" data-i18n="targetLang.note">
+    Target language for image OCR, region translation and text selection translation. The source language is detected
+    automatically for every request.
+  </div>
+
+  <label class="checkbox-label">
+    <input type="checkbox" id="showSelectionIcon">
+    <span data-i18n="showIcon.label">Show a translate icon next to selected text</span>
+  </label>
+  <div class="note" data-i18n="showIcon.note">
+    After you select text on a page, a small icon appears at the end of the selection — click it to translate. The
+    context-menu "Translate" entry is always available.
+  </div>
+
+  <label class="checkbox-label">
+    <input type="checkbox" id="showRomaji">
+    <span data-i18n="showRomaji.label">Show Japanese romaji (only when Japanese is detected)</span>
+  </label>
+  <div class="note" data-i18n="showRomaji.note">
+    Romaji is provided by the AI engines (Gemini / DeepSeek) and appears in light grey below the original text. The Google
+    free endpoint does not return romaji; this switch has no effect with the Google engine.
+  </div>
+
+  <hr>
+
+  <h3 data-i18n="section.shortcut">Shortcut</h3>
+
+  <label class="checkbox-label">
+    <input type="checkbox" id="shortcutEnabled">
+    <span data-i18n="shortcutEnabled.label">Enable the region-translate shortcut</span>
+  </label>
+
+  <label for="shortcutKey" data-i18n="shortcut.label">Shortcut</label>
+  <input type="text" id="shortcutKey" readonly spellcheck="false"
+         placeholder="Click here, then press the combination you want, e.g. Alt+T"
+         data-i18n-placeholder="shortcut.placeholder">
+  <div class="note" data-i18n="shortcut.note">
+    Click the field, then press the combination to record it. The shortcut does not fire while typing in an
+    &lt;input&gt;, &lt;textarea&gt; or editable area.
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>
