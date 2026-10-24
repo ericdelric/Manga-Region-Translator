@@ -1,2 +1,22 @@
-# Manga-Region-Translator
-基于大模型的Chrome漫画翻译插件，支持框选翻译，日语标注罗马音，也支持火力全开暴力翻译所有对话（仅支持ComicRead插件）
+# Manga-Region-Translator (基于大模型的漫画翻译插件)
+
+使用deepseekharness开发的一个 Chrome 漫画翻译插件，二次开发自 `imgtranslate-ocr`。适配 ComicRead，支持 Gemini 与 DeepSeek 大模型。
+
+## 🌟 核心功能
+- **大模型分流**：支持 Google 免费接口、Gemini（传图）、DeepSeek（纯文本 OCR）。
+- **日语学习利器**：翻译同时自动生成标准平文式罗马音。
+- **ComicRead 完美适配**：悬浮框可穿透 Shadow DOM，随页面丝滑滚动。
+- **火力全开模式**：自动旁听网络请求，在后台静默预加载并翻译后两页漫画，实现无缝翻页，仅支持在ComicRead插件阅读模式下使用，卷轴模式适配更好。
+- **框选翻译**：可框选翻译任何文字，可以火力全开模式共存，作为火力全开模式的补充
+- **独立关闭**：每个翻译气泡均可单独关闭。
+
+## 🚀 安装方法
+1. 下载本仓库的 ZIP 压缩包并解压。
+2. 打开 Chrome 浏览器，进入 `chrome://extensions/`。
+3. 开启右上角的“开发者模式”。
+4. 点击“加载已解压的扩展程序”，选择解压后的文件夹即可。
+
+## 🔑 配置说明
+在插件的“选项”页面中，您可以配置：
+- 目标语言（支持选择带罗马音的日语）
+- Gemini API Key 或 DeepSeek API Key（不填则默认走 Google 免费翻译）
